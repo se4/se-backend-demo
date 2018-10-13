@@ -1,10 +1,7 @@
 package nju.se4.demo.domain;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -26,6 +23,7 @@ public class Document {
     /**
      * 文档的编写用户
      */
+    @ElementCollection
     private List<User> userList;
 
     /**

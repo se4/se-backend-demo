@@ -2,10 +2,7 @@ package nju.se4.demo.domain;
 
 import nju.se4.demo.enumeration.TagType;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +30,7 @@ public class Tag {
     /**
      * 用户列表
      */
+    @ElementCollection
     private List<User> userList;
 
     /**
