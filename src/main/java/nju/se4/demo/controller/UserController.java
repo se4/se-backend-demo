@@ -11,29 +11,31 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping(value = "/api/vX/user/")
+@RequestMapping(value = "/api/v1/user/")
 public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "{userId}", method = RequestMethod.GET)
     @ResponseBody
     public Response<UserVO> getUserById(@PathVariable("userId") int id) {
         return userService.getUserById(id);
     }
 
-    @RequestMapping(value = "/{userId}", method = RequestMethod.POST)
+    @RequestMapping(value = "{userId}", method = RequestMethod.POST)
     @ResponseBody
     public Response<UserVO> updateUserInfo(@PathVariable("userId") int id,
                                            String nickname, String avatar, String bio) {
         return userService.updateUserInfo(id, nickname, avatar, bio);
     }
 
-    @RequestMapping(value = "/{userId}/password", method = RequestMethod.POST)
+    @RequestMapping(value = "{userId}/password", method = RequestMethod.POST)
     @ResponseBody
     public Response<UserVO> updatePassword(@PathVariable("userId") int id,
                                            String password) {
         return userService.updatePassword(id, password);
     }
+
+
 
 }

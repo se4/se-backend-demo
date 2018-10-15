@@ -17,11 +17,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Controller
-@RequestMapping("/api/vX/util/")
+@RequestMapping("/api/v1/util/")
 public class FileUploadController {
     private static String UPLOADED_FOLDER = "";
     //save file
-    @RequestMapping(value="/upload",method = RequestMethod.POST)
+    @RequestMapping(value="upload",method = RequestMethod.POST)
     @ResponseBody
     public Response<String> fileUpload(MultipartFile file){
         String name = "";

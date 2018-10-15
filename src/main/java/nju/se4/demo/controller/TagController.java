@@ -5,27 +5,26 @@ import nju.se4.demo.service.TagService;
 import nju.se4.demo.util.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @Controller
-@RequestMapping("/api/vX/tag/")
+@RequestMapping("/api/v1/")
 public class TagController {
     @Autowired
     private TagService tagService;
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "tag", method = RequestMethod.POST)
     @ResponseBody
     public Response<Tag> addTag(String id, String type, String name) {
         return tagService.addTag(id, type, name);
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "tag", method = RequestMethod.GET)
     @ResponseBody
-    public Response<List<Tag>> getTagListByUserId(String userId) {
+    public Response<List<Tag>> getTagListByUserId(@RequestParam("userId") String userId) {
         return tagService.getTagListByUserId(userId);
     }
 }

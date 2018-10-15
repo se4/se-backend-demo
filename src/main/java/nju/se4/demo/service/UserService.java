@@ -30,4 +30,12 @@ public interface UserService {
      */
     Response<UserVO> updatePassword(int id, String newPassword);
 
+    /**
+     * 判断能否登录
+     * @param username
+     * @param password
+     * @return
+     */
+    Response<UserVO> canLogin(String username, String password);
+
 }

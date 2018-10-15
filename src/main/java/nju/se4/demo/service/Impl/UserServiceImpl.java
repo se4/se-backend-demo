@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
@@ -65,6 +67,35 @@ public class UserServiceImpl implements UserService {
             abilities.setUpdate(true);
             return new Response<>(abilities, userVO);
         }catch (Exception ex){
+            ex.printStackTrace();
+            Abilities abilities = new Abilities();
+            abilities.setUpdate(false);
+            return new Response<>(abilities, new UserVO());
+        }
+    }
+
+    @Override
+    public Response<UserVO> canLogin(String username, String password) {
+        try {
+            List<User> list = userDAO.findAll();
+            String pw = "";
+            User user = new User();
+            for (User u : list) {
+                if ( u.getUsername().equals(username) ) {
+                    pw = u.getPassword();
+                    user = u;
+                }
+            }
+            Abilities abilities = new Abilities();
+            if ( pw.equals(password) ) {
+                abilities.setUpdate(true);
+            } else {
+                abilities.setUpdate(false);
+            }
+            Convertor convertor = new Convertor();
+            UserVO userVO = convertor.convertToUserVO(user);
+            return new Response<>(abilities, userVO);
+        }catch (Exception ex) {
             ex.printStackTrace();
             Abilities abilities = new Abilities();
             abilities.setUpdate(false);
