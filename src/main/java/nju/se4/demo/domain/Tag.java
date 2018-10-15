@@ -1,6 +1,7 @@
 package nju.se4.demo.domain;
 
 import nju.se4.demo.enumeration.TagType;
+import nju.se4.demo.util.DateHelper;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -47,12 +48,12 @@ public class Tag {
     }
 
     public Tag(TagType tagType, String shareLink, String name,
-               List<User> userList, String createTime, String updateTime) {
+               List<User> userList, String updateTime) {
         this.tagType = tagType;
         this.shareLink = shareLink;
         this.name = name;
         this.userList = userList;
-        this.createTime = createTime;
+        this.createTime = DateHelper.getDate();
         this.updateTime = updateTime;
     }
 

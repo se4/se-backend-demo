@@ -8,11 +8,12 @@ import java.util.List;
 public interface TagService {
     /**
      * 增加标签
+     * @param id
      * @param type
      * @param name
      * @return
      */
-    Response<Tag> addTag(String type, String name);
+    Response<Tag> addTag(String id, String type, String name);
 
     /**
      * 查找userId的用户的所有标签
