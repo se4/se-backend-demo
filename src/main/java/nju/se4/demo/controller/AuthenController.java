@@ -2,6 +2,7 @@ package nju.se4.demo.controller;
 
 import nju.se4.demo.service.UserService;
 import nju.se4.demo.util.Response;
+import nju.se4.demo.vo.AthenVO;
 import nju.se4.demo.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,8 @@ public class AuthenController {
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
     @ResponseBody
-    public Response<UserVO> login(String username, String password) {
+    public Response<AthenVO> login(String username, String password) {
         return userService.canLogin(username, password);
     }
+
 }

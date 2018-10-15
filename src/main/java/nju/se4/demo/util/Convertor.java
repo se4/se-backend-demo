@@ -8,7 +8,7 @@ public class Convertor {
         UserVO userVO = new UserVO();
         userVO.setId(user.getId() + "");
         userVO.setUsername(user.getUsername());
-        userVO.setUserIdentity(user.getUserIdentity().toString());
+   //     userVO.setUserIdentity(user.getUserIdentity().toString());
         userVO.setNickName(user.getNickName());
         userVO.setAvatar(user.getAvatar());
         userVO.setBio(user.getBio());

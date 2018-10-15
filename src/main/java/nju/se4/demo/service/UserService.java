@@ -1,6 +1,7 @@
 package nju.se4.demo.service;
 
 import nju.se4.demo.util.Response;
+import nju.se4.demo.vo.AthenVO;
 import nju.se4.demo.vo.UserVO;
 
 
@@ -36,6 +37,6 @@ public interface UserService {
      * @param password
      * @return
      */
-    Response<UserVO> canLogin(String username, String password);
+    Response<AthenVO> canLogin(String username, String password);
 
 }

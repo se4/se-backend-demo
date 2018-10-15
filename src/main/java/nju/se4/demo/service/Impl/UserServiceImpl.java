@@ -6,6 +6,7 @@ import nju.se4.demo.service.UserService;
 import nju.se4.demo.util.Convertor;
 import nju.se4.demo.util.Response;
 import nju.se4.demo.util.innerData.Abilities;
+import nju.se4.demo.vo.AthenVO;
 import nju.se4.demo.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -75,31 +76,34 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Response<UserVO> canLogin(String username, String password) {
+    public Response<AthenVO> canLogin(String username, String password) {
         try {
             List<User> list = userDAO.findAll();
             String pw = "";
             User user = new User();
             for (User u : list) {
-                if ( u.getUsername().equals(username) ) {
+                if (u.getUsername().equals(username) ) {
                     pw = u.getPassword();
                     user = u;
                 }
             }
             Abilities abilities = new Abilities();
-            if ( pw.equals(password) ) {
+            if ( pw.equals(password)) {
                 abilities.setUpdate(true);
             } else {
                 abilities.setUpdate(false);
             }
             Convertor convertor = new Convertor();
             UserVO userVO = convertor.convertToUserVO(user);
-            return new Response<>(abilities, userVO);
+            AthenVO athenVO = new AthenVO();
+            athenVO.setToken(username);
+            athenVO.setUser(userVO);
+            return new Response<>(abilities, athenVO);
         }catch (Exception ex) {
             ex.printStackTrace();
             Abilities abilities = new Abilities();
             abilities.setUpdate(false);
-            return new Response<>(abilities, new UserVO());
+            return new Response<>(abilities, new AthenVO());
         }
     }
 }

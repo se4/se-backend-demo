@@ -1,5 +1,6 @@
 package nju.se4.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import nju.se4.demo.enumeration.UserIdentity;
 
 import javax.persistence.Entity;
@@ -31,6 +32,7 @@ public class User {
     /**
      * 昵称
      */
+    @JsonProperty("nickname")
     private String nickName;
 
     /**
@@ -46,11 +48,13 @@ public class User {
     /**
      * 账户创建时间
      */
+    @JsonProperty("createAt")
     private String createTime;
 
     /**
      * 账户更新时间
      */
+    @JsonProperty("updateAt")
     private String updateTime;
 
     public User() {
