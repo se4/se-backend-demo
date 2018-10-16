@@ -3,7 +3,7 @@ package nju.se4.demo.service.Impl;
 import nju.se4.demo.dao.UserDAO;
 import nju.se4.demo.domain.User;
 import nju.se4.demo.service.UserService;
-import nju.se4.demo.util.Convertor;
+import nju.se4.demo.util.Converter;
 import nju.se4.demo.util.Response;
 import nju.se4.demo.util.innerData.Abilities;
 import nju.se4.demo.vo.AthenVO;
@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDAO userDAO;
 
-    private Convertor convertor = new Convertor();
+    private Converter convertor = new Converter();
 
     @Override
     public Response<UserVO> getUserById(int id) {
@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService {
             } else {
                 abilities.setUpdate(false);
             }
-            Convertor convertor = new Convertor();
+            Converter convertor = new Converter();
             UserVO userVO = convertor.convertToUserVO(user);
             AthenVO athenVO = new AthenVO();
             athenVO.setToken(username);

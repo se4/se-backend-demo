@@ -3,7 +3,7 @@ package nju.se4.demo.util;
 import nju.se4.demo.domain.User;
 import nju.se4.demo.vo.UserVO;
 
-public class Convertor {
+public class Converter {
     public UserVO convertToUserVO(User user) {
         UserVO userVO = new UserVO();
         userVO.setId(user.getId() + "");
