@@ -1,5 +1,6 @@
 package nju.se4.demo.security;
 
+import nju.se4.demo.dao.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -18,10 +19,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     public SecurityConfig(SecurityUserController securityUserController) {
         this.securityUserController = securityUserController;
     }
-
+    @Autowired
+    private nju.se4.demo.dao.UserDAO UserDAO;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         JWTLoginFilter loginFilter = new JWTLoginFilter(authenticationManager());
+        loginFilter.setUserDAO(UserDAO);
         loginFilter.setAuthenticationFailureHandler(new AuthFailHandler());
         loginFilter.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/api/vX/authorization/login", "POST"));
         JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager(), securityUserController, new RestAuthorEntry());
@@ -32,11 +35,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/vX/authorization/register").permitAll()
-                .antMatchers("/api/vX/user").hasRole("STUDENT")
+                .antMatchers("/api/v1/user/**").authenticated()
 //                .antMatchers("/worker/**").hasRole("WORKER")
                 .anyRequest().permitAll()
                 .and()
-                .addFilterAfter(loginFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilter(loginFilter)
                 .addFilter(jwtAuthenticationFilter);
 
 

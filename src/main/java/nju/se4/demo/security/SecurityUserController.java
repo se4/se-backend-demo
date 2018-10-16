@@ -68,6 +68,7 @@ public class SecurityUserController implements UserDetailsService {
         newUser.setPassword(userDTO.getPassword());
         newUser.setUsername(userDTO.getUsername());
         newUser.setUserIdentity(UserIdentity.STUDENT);
+        UserDAO.save(newUser);
 
         Abilities abilities = new Abilities();
         abilities.setUpdate(true);
