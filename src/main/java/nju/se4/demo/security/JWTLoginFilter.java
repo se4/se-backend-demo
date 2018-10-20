@@ -11,14 +11,12 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import nju.se4.demo.dao.UserDAO;
 import nju.se4.demo.domain.User;
 import nju.se4.demo.security.exception.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +25,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Optional;
 
 public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -49,7 +46,7 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
                     .readValue(req.getInputStream(), SecurityUser.class);
             //这里的security user是从前端的包生成的，所以密码里不含noop，因此要在这里手动加上
             //不！！！Spring security在解析密码的时候会自动去掉noop，所以登录不用加noop
-            securityUser.setSecurityPassword(securityUser.getPassword());
+            securityUser.setPassword(securityUser.getPassword());
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             securityUser.getUsername(),
@@ -67,7 +64,7 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
                                             HttpServletResponse res,
                                             FilterChain chain,
                                             Authentication auth) {
-        String username=((SecurityUser) auth.getPrincipal()).getUsername();
+        String username=((UserDetails) auth.getPrincipal()).getUsername();
         String token = Jwts.builder()
                 .setSubject(username)
                 .setExpiration(new Date(System.currentTimeMillis() + 60 * 60 * 24 * 1000))

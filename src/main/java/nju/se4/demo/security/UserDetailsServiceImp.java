@@ -1,7 +1,5 @@
 package nju.se4.demo.security;
 
-import javafx.concurrent.Worker;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import nju.se4.demo.dao.UserDAO;
 import nju.se4.demo.domain.User;
@@ -11,35 +9,35 @@ import nju.se4.demo.security.exception.NotFoundException;
 import nju.se4.demo.security.others.SecurityUserDAO;
 import nju.se4.demo.util.Response;
 import nju.se4.demo.util.innerData.Abilities;
-import nju.se4.demo.vo.UserVO;
-import org.eclipse.jdt.core.compiler.InvalidInputException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-@Component
+@Service
 @RestController
-public class SecurityUserController implements UserDetailsService {
-
+public class UserDetailsServiceImp implements UserDetailsService {
+    private final SecurityProperties securityProperties;
     private final String NOOP = "{noop}";
 
     @Autowired
     private SecurityUserDAO securityUserDAO;
 
+    private UserDAO userDAO;
+
     @Autowired
-    private UserDAO UserDAO;
-
-
+    public UserDetailsServiceImp(SecurityProperties securityProperties, UserDAO userDAO) {
+        this.securityProperties = securityProperties;
+        this.userDAO = userDAO;
+    }
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        SecurityUser securityUser = securityUserDAO.findBySecurityUserName(username);
+    public UserDetails loadUserByUsername(String username) {
+        SecurityUser securityUser = securityUserDAO.findByUsername(username);
 
         if (securityUser == null) {
             throw new NotFoundException(username);
@@ -50,25 +48,25 @@ public class SecurityUserController implements UserDetailsService {
     /**
      * 注册的时候会在密码前加noop
      */
-    @RequestMapping(value = "/api/vX/authorization/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/authorization/register", method = RequestMethod.POST)
     public Response<UserDTO> signUp(@RequestBody UserDTO userDTO) {
         userDTO.setPassword(NOOP + userDTO.getPassword());
-//        user.setAvatar(URLUtil.processURL(user.getAvatar()));
-//
-        SecurityUser securityUser = new SecurityUser(userDTO);
-        SecurityUser oriUser = securityUserDAO.findBySecurityUserName(securityUser.getUsername());
+
+        SecurityUser oriUser = securityUserDAO.findByUsername(userDTO.getUsername());
         if (oriUser != null) {
             throw new InvalidOperationException("此用户已被注册");
         }
-//
-        securityUserDAO.save(securityUser);
+
 
         User newUser=new User();
         newUser.setNickName(userDTO.getNickname());
         newUser.setPassword(userDTO.getPassword());
         newUser.setUsername(userDTO.getUsername());
         newUser.setUserIdentity(UserIdentity.STUDENT);
-        UserDAO.save(newUser);
+        userDAO.save(newUser);
+
+        SecurityUser securityUser = new SecurityUser(newUser);
+        securityUserDAO.save(securityUser);
 
         Abilities abilities = new Abilities();
         abilities.setUpdate(true);
