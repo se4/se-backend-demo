@@ -1,6 +1,8 @@
 package nju.se4.demo.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -24,16 +26,19 @@ public class Document {
      * 文档的编写用户
      */
     @ElementCollection
+    @JsonProperty("owners")
     private List<User> userList;
 
     /**
      * 文档的创建时间
      */
+    @JsonProperty("createAt")
     private String createTime;
 
     /**
      * 文档的更新时间
      */
+    @JsonProperty("updateAt")
     private String updateTime;
 
     public Document() {
