@@ -17,6 +17,7 @@ public class User {
     /**
      * 用户身份的枚举类型
      */
+    @JsonProperty("role")
     private UserIdentity userIdentity;
 
     /**

@@ -1,5 +1,6 @@
 package nju.se4.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import nju.se4.demo.enumeration.TagType;
 import nju.se4.demo.util.DateHelper;
 
@@ -16,6 +17,7 @@ public class Tag {
     /**
      * 标签类型
      */
+    @JsonProperty("type")
     private TagType tagType;
 
     /**
@@ -32,16 +34,19 @@ public class Tag {
      * 用户列表
      */
     @ElementCollection
+    @JsonProperty("owners")
     private List<User> userList;
 
     /**
      * 标签创建时间
      */
+    @JsonProperty("createAt")
     private String createTime;
 
     /**
      * 标签更新时间
      */
+    @JsonProperty("updateAt")
     private String updateTime;
 
     public Tag() {
