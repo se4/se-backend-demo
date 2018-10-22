@@ -1,15 +1,19 @@
 package nju.se4.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import nju.se4.demo.enumeration.TagType;
 import nju.se4.demo.util.DateHelper;
+import org.springframework.data.repository.cdi.Eager;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Tag {
+@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
+public class Tag implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager(), userDetailsServiceImp, new RestAuthorEntry());
         http
                 .authorizeRequests()
-                .antMatchers("/api/vX/authorization/register").permitAll()
+                .antMatchers("/api/v1/authorization/register").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(loginFilter)

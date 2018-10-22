@@ -30,7 +30,7 @@ public class AuthDemoController {
     @RolesAllowed({TEACHER_ROLE})
     @RequestMapping(value = "test/teacher", method = RequestMethod.GET)
     @ResponseBody
-    public Object teacher(@AuthenticationPrincipal SecurityUser userDetails) {
+    public Object teacher( SecurityUser userDetails) {
         return userDetails;
     }
 

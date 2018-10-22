@@ -1,7 +1,10 @@
 package nju.se4.demo.service.Impl;
 
+import nju.se4.demo.dao.TagDAO;
 import nju.se4.demo.dao.UserDAO;
+import nju.se4.demo.domain.Tag;
 import nju.se4.demo.domain.User;
+import nju.se4.demo.security.exception.NotFoundException;
 import nju.se4.demo.service.UserService;
 import nju.se4.demo.util.Converter;
 import nju.se4.demo.util.Response;
@@ -19,6 +22,9 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserDAO userDAO;
+
+    @Autowired
+    private TagDAO tagDAO;
 
     private Converter convertor = new Converter();
 
@@ -105,5 +111,37 @@ public class UserServiceImpl implements UserService {
             abilities.setUpdate(false);
             return new Response<>(abilities, new AthenVO());
         }
+    }
+
+    @Override
+    public Response<Tag> addUserToGroup(String userId, String shareLink) {
+        try {
+            List<Tag> list = tagDAO.findAll();
+            Tag tag = null;
+            for (Tag t : list) {
+                if ( t.getShareLink().equals(shareLink) ) {
+                    tag = t;
+                    break;
+                }
+            }
+
+            if(tag == null) {
+                throw new NotFoundException("ShareLink not found");
+            }
+            List<User> users = tag.getUserList();
+            users.add(userDAO.getOne(Integer.parseInt(userId)));
+            tag.setUserList(users);
+            tagDAO.save(tag);
+            Abilities abilities = new Abilities();
+            abilities.setUpdate(true);
+            return new Response<>(abilities, tag);
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            Abilities abilities = new Abilities();
+            abilities.setUpdate(false);
+            return new Response<>(abilities, new Tag());
+        }
+
     }
 }

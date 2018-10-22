@@ -1,5 +1,6 @@
 package nju.se4.demo.service;
 
+import nju.se4.demo.domain.Tag;
 import nju.se4.demo.util.Response;
 import nju.se4.demo.vo.AthenVO;
 import nju.se4.demo.vo.UserVO;
@@ -38,5 +39,7 @@ public interface UserService {
      * @return
      */
     Response<AthenVO> canLogin(String username, String password);
+
+    Response<Tag> addUserToGroup(String userId, String shareLink);
 
 }

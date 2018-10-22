@@ -13,7 +13,7 @@ public interface TagService {
      * @param name
      * @return
      */
-    Response<Tag> addTag(String id, String type, String name);
+    Response<Tag> addTag(int id, String type, String name);
 
     /**
      * 查找userId的用户的所有标签
@@ -21,4 +21,6 @@ public interface TagService {
      * @return
      */
     Response<List<Tag>> getTagListByUserId(String userId);
+
+
 }

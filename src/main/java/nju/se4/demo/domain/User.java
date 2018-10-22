@@ -1,5 +1,6 @@
 package nju.se4.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import nju.se4.demo.enumeration.UserIdentity;
 
@@ -7,9 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 @Entity
-public class User {
+@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

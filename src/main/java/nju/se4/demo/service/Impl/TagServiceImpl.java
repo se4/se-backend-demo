@@ -7,13 +7,12 @@ import nju.se4.demo.domain.User;
 import nju.se4.demo.enumeration.TagType;
 import nju.se4.demo.service.TagService;
 import nju.se4.demo.util.DateHelper;
-import nju.se4.demo.util.LinkUtil;
+import nju.se4.demo.util.RandomGenerator;
 import nju.se4.demo.util.Response;
 import nju.se4.demo.util.innerData.Abilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sun.util.resources.cldr.ga.TimeZoneNames_ga;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,17 +27,19 @@ public class TagServiceImpl implements TagService {
     private TagDAO tagDAO;
 
     @Override
-    public Response<Tag> addTag(String id, String type, String name) {
+    public Response<Tag> addTag(int id, String type, String name) {
         try {
-            int userId = Integer.parseInt(id);
+            int userId = id;
             User user = userDAO.getOne(userId);
             List<User> list = new ArrayList<>();
             list.add(user);
-            Tag tag = new Tag(TagType.valueOf(type), LinkUtil.getShareLink(), name, list,
+            Tag tag = new Tag(TagType.valueOf(type), RandomGenerator.generateRandomCode(), name, list,
                     DateHelper.getDate());
             Abilities abilities = new Abilities();
+            tagDAO.save(tag);
             abilities.setUpdate(true);
             return new Response<>(abilities, tag);
+//            return new Response<>(abilities, new Tag());
         }catch (Exception ex){
             ex.printStackTrace();
             Abilities abilities = new Abilities();
@@ -70,4 +71,6 @@ public class TagServiceImpl implements TagService {
             return new Response<>(abilities, list);
         }
     }
+
+
 }
