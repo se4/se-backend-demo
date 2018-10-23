@@ -32,13 +32,13 @@ public class Document {
     /**
      * 文档的创建时间
      */
-    @JsonProperty("createAt")
+    @JsonProperty("createdAt")
     private String createTime;
 
     /**
      * 文档的更新时间
      */
-    @JsonProperty("updateAt")
+    @JsonProperty("updatedAt")
     private String updateTime;
 
     public Document() {

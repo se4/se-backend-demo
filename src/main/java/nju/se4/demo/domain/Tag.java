@@ -16,6 +16,7 @@ import java.util.List;
 public class Tag implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("id")
     private int id;
 
     /**
@@ -44,13 +45,13 @@ public class Tag implements Serializable {
     /**
      * 标签创建时间
      */
-    @JsonProperty("createAt")
+    @JsonProperty("createdAt")
     private String createTime;
 
     /**
      * 标签更新时间
      */
-    @JsonProperty("updateAt")
+    @JsonProperty("updatedAt")
     private String updateTime;
 
     public Tag() {

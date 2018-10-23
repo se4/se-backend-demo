@@ -52,13 +52,13 @@ public class User implements Serializable {
     /**
      * 账户创建时间
      */
-    @JsonProperty("createAt")
+    @JsonProperty("createdAt")
     private String createTime;
 
     /**
      * 账户更新时间
      */
-    @JsonProperty("updateAt")
+    @JsonProperty("updatedAt")
     private String updateTime;
 
     public User() {
